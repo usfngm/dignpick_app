@@ -1,0 +1,10 @@
+export const BUDGET_INCREMENTED = 'budget_incremented';
+export const BUDGET_DECREMENTED = 'budget_decremented';
+export const PEOPLE_INCREMENTED = 'people_incremented';
+export const PEOPLE_DECREMENTED = 'people_decremented';
+export const START_BUDGET_SEARCH = 'start_budget_search';
+export const BUDGET_SEARCH_SUCCESS = 'success_budget_search';
+export const BUDGET_SEARCH_FAIL = 'fail_budget_search';
+export const UPDATE_LOCATION = 'update_location';
+export const SET_TAGS = "set_tags";
+export const OPEN_PLACE = "open_place";

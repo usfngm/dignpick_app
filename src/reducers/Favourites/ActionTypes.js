@@ -1,0 +1,12 @@
+export const LOAD_FAVS = 'load_favs';
+export const LOAD_FAVS_SUCCESS = 'load_favs_success';
+export const LOAD_FAVS_FAIL = 'load_favs_fail';
+export const REMOVE_FAV = 'remove_fav';
+export const REMOVE_FAV_FAIL = 'remove_fav_fail';
+export const REMOVE_FAV_SUCCESS = 'remove_fav_success';
+export const TOGGLE_FAV = 'toggle_fav';
+export const TOGGLE_FAV_SUCCESS = 'toggle_fav_success';
+export const TOGGLE_FAV_FAIL = 'toggle_fav_fail';
+export const ADD_FAV = 'add_fav';
+export const ADD_FAV_FAIL = 'add_fav_fail';
+export const ADD_FAV_SUCCESS = 'add_fav_success';
