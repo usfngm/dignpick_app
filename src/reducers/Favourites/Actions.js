@@ -85,64 +85,64 @@ export const removeFav = (place) => {
                 );
             }
         }, 45000)
-
     }
 }
 
 export const loadFavs = () => {
     return (dispatch, getState) => {
-
-        dispatch({
-            type: LOAD_FAVS
-        });
-
-        const CancelToken = axios.CancelToken;
-        const source = CancelToken.source();
-        var reqDone = false;
-        console.log('requesting fav places');
-        console.log(getState().auth.user);
-        axios.post('https://us-central1-dignpick.cloudfunctions.net/api/getFavPlaces', {
-            'user': getState().auth.user
-        }, {
-                cancelToken: source.token
-            })
-            .then(function (response) {
-                reqDone = true;
-                console.log(response.data);
-                var favPlaces_processed = response.data;
-                var favPlaces = [];
-                favPlaces_processed.forEach((place) => {
-                    favPlaces.push(place.uid);
-                });
-                dispatch({
-                    type: LOAD_FAVS_SUCCESS,
-                    payload: { 'favs': response.data, 'rawFavs': favPlaces }
-                });
-            })
-            .catch(function (error) {
-                console.log(error);
-                dispatch({
-                    type: LOAD_FAVS_FAIL
-                });
+        if (!getState().favs.rawFavs) {
+            dispatch({
+                type: LOAD_FAVS
             });
 
-
-        setTimeout(() => {
-            if (!reqDone) {
-                source.cancel('Operation canceled by the user.');
-                dispatch({
-                    type: LOAD_FAVS_FAIL
+            const CancelToken = axios.CancelToken;
+            const source = CancelToken.source();
+            var reqDone = false;
+            console.log('requesting fav places');
+            console.log(getState().auth.user);
+            axios.post('https://us-central1-dignpick.cloudfunctions.net/api/getFavPlaces', {
+                'user': getState().auth.user
+            }, {
+                    cancelToken: source.token
+                })
+                .then(function (response) {
+                    reqDone = true;
+                    console.log(response.data);
+                    var favPlaces_processed = response.data;
+                    var favPlaces = [];
+                    favPlaces_processed.forEach((place) => {
+                        favPlaces.push(place.uid);
+                    });
+                    dispatch({
+                        type: LOAD_FAVS_SUCCESS,
+                        payload: { 'favs': response.data, 'rawFavs': favPlaces }
+                    });
+                })
+                .catch(function (error) {
+                    console.log(error);
+                    dispatch({
+                        type: LOAD_FAVS_FAIL
+                    });
                 });
-                Alert.alert(
-                    'Error',
-                    'Connection timeout. Please check your internet connection and try again.',
-                    [
-                        { text: 'OK', onPress: () => console.log('OK Pressed') },
-                    ],
-                    { cancelable: false }
-                );
-            }
-        }, 45000)
+
+
+            setTimeout(() => {
+                if (!reqDone) {
+                    source.cancel('Operation canceled by the user.');
+                    dispatch({
+                        type: LOAD_FAVS_FAIL
+                    });
+                    Alert.alert(
+                        'Error',
+                        'Connection timeout. Please check your internet connection and try again.',
+                        [
+                            { text: 'OK', onPress: () => console.log('OK Pressed') },
+                        ],
+                        { cancelable: false }
+                    );
+                }
+            }, 45000)
+        }
     }
 }
 
