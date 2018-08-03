@@ -4573,9 +4573,9 @@ react-native-maps@^0.21.0:
     babel-plugin-module-resolver "^2.3.0"
     babel-preset-react-native "1.9.0"
 
-react-native-navigation@^1.1.478:
+"react-native-navigation@https://github.com/usfngm/react-native-navigation.git":
   version "1.1.478"
-  resolved "https://registry.yarnpkg.com/react-native-navigation/-/react-native-navigation-1.1.478.tgz#70430c60cafb36f306f8a9558092bdd854cc6d17"
+  resolved "https://github.com/usfngm/react-native-navigation.git#bdffd2841654658cfceba74cbd8149ce5e7369e2"
   dependencies:
     lodash "4.x.x"
 
