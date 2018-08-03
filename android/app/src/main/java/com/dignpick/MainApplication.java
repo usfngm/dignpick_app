@@ -2,7 +2,6 @@ package com.dignpick;
 
 import android.app.Application;
 
-import com.facebook.react.BuildConfig;
 import com.facebook.react.ReactApplication;
 import com.facebook.react.ReactNativeHost;
 import com.facebook.react.ReactPackage;
@@ -17,6 +16,7 @@ import java.util.List;
 
 public class MainApplication extends NavigationApplication {
 
+    // FALSE CAUSES APP TO BE FASTER BUT NO DEV MENU
     @Override
     public boolean isDebug() {
         // Make sure you are using BuildConfig from your own application
