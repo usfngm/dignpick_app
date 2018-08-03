@@ -46,6 +46,10 @@ var width = Dimensions.get('window').width;
 
 class MyBudgetScreen extends Component {
 
+    static navigatorStyle = {
+        drawUnderTabBar: true,
+    };
+
     constructor(props) {
         super(props);
         console.log('screenInstanceID', props.navigator.screenInstanceID)

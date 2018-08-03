@@ -32,13 +32,28 @@ class SearchButton extends Component {
     }
 }
 
+const navBatHeight = getNavBarHeight => {
+    if (Platform.OS == 'ios') {
+
+        let d = Dimensions.get('window');
+        const { height, width } = d;
+
+        if (height === 812 || width === 812)
+            return 88 // iPhone X navbar height (regular title);
+        else
+            return 64 // iPhone navbar height;
+    } else
+        return 54 //android portrait navbar height;
+}
+
 const styles = {
     container: {
         backgroundColor: '#729dcd',
         height: 100,
         alignSelf: 'stretch',
         alignItems: 'center',
-        justifyContent: 'center'
+        justifyContent: 'center',
+        marginBottom: navBatHeight()
     },
     img: {
         width: '60%'
