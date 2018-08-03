@@ -65,14 +65,15 @@ class Result extends Component {
     }
 
     toggleFavPlace = () => {
-        console.log('wtf? again');
+        console.log('toggle fav place');
+        console.log(this.props.place);
         this.props.toggleFav(this.props.place);
     }
 
     renderLikeBtn() {
         try {
             var favPlaces = this.props.favPlaces;
-            if (favPlaces.indexOf(this.props.place.uid) != -1) {
+            if (favPlaces.indexOf(this.props.place.uid) != -1 || favPlaces.indexOf(this.props.place.id) != -1) {
                 return (
                     <IoniconsIcon
                         name="md-heart"

@@ -48,7 +48,7 @@ class FavouriteItem extends Component {
                             <View style={styles.placeimgContainer}>
                                 <ImageBackground
                                     defaultSource={this.props.waitingimg}
-                                    loadingIndicatorSource={this.props.waitingimg}
+                                    //loadingIndicatorSource={this.props.waitingimg}
                                     source={this.props.img}
                                     style={styles.placeimg}
                                 >

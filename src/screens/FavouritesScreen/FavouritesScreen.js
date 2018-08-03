@@ -70,7 +70,7 @@ class FavouritesScreen extends Component {
         else {
             return (
                 <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
-                    <Text style={{marginRight: 10, marginLeft: 10, textAlign: 'center', color: '#3A3A3A'}}>The list is empty. Try adding some restaurants to your list and try again.</Text>
+                    <Text style={{ marginRight: 10, marginLeft: 10, textAlign: 'center', color: '#3A3A3A' }}>The list is empty. Try adding some restaurants to your list and try again.</Text>
                 </View>
             )
         }
@@ -133,14 +133,22 @@ class FavouritesScreen extends Component {
         }
     }
 
-    render() {
-        return (
-            <View style={styles.container}>
+    renderLoading() {
+        if (this.props.isLoading) {
+            return (
                 <View style={this.loadingStyle()}>
                     <ActivityIndicator size="large" color="#FFFFFF" />
                     <Text style={styles.loadingText}>Loading...</Text>
                 </View>
+            );
+        }
+    }
+
+    render() {
+        return (
+            <View style={styles.container}>
                 {this.topStatusBar()}
+                {this.renderLoading()}
                 <NavBar
                     {...this.props}
                     title='FAVOURITES'
