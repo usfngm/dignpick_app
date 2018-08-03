@@ -62,7 +62,12 @@ class MyBudgetScreen extends Component {
     }
 
     componentDidMount() {
-        requestLocationPermission();
+        try {
+            requestLocationPermission();
+        }
+        catch (e) {
+            console.log('error requesting permission ' + e);
+        }
         console.log('REQUESTING POSITION BRO');
         navigator.geolocation.getCurrentPosition(
             (position) => {
