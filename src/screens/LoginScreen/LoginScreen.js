@@ -14,7 +14,6 @@ import {
     ScrollView,
     PermissionsAndroid
 } from 'react-native';
-import firebase from 'firebase';
 //import FBSDK, { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { connect } from 'react-redux';
@@ -171,6 +170,17 @@ class LoginScreen extends Component {
         }
     }
 
+    renderLoadingOverlay() {
+        if (this.props.isLoading) {
+            return (
+                <View style={this.loadingStyler()}>
+                    <ActivityIndicator size="large" color="#FFFFFF" />
+                    <Text style={styles.loadingText}>Signing in</Text>
+                </View>
+            );
+        }
+    }
+
     renderKeyboardSpacer() {
         if (Platform.OS == 'ios') {
             return (
@@ -303,10 +313,7 @@ class LoginScreen extends Component {
                             {this.renderKeyboardSpacer()}
                         </View>
                     </ScrollView>
-                    <View style={this.loadingStyler()}>
-                        <ActivityIndicator size="large" color="#FFFFFF" />
-                        <Text style={styles.loadingText}>Signing in</Text>
-                    </View>
+                    {this.renderLoadingOverlay()}
                 </View>
             </ImageBackground>
 

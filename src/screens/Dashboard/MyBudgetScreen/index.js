@@ -87,6 +87,19 @@ class MyBudgetScreen extends Component {
         }
     }
 
+    renderLoading() {
+        if (this.props.isLoading) {
+            return (
+                <ImageBackground
+                    source={require('../../../assets/loading_bg.jpeg')}
+                    style={this.loadingStyler()}>
+                    <ActivityIndicator size="large" color="#FFFFFF" />
+                    <Text style={styles.loadingText}>Getting Results...</Text>
+                </ImageBackground>
+            );
+        }
+    }
+
     topStatusBar() {
         if (Platform.OS == 'ios') {
             StatusBar.setHidden(false);
@@ -150,12 +163,7 @@ class MyBudgetScreen extends Component {
                     </View>
                 </ScrollView>
                 <SearchButton {...this.props} />
-                <ImageBackground
-                    source={require('../../../assets/loading_bg.jpeg')}
-                    style={this.loadingStyler()}>
-                    <ActivityIndicator size="large" color="#FFFFFF" />
-                    <Text style={styles.loadingText}>Getting Results...</Text>
-                </ImageBackground>
+                {this.renderLoading()}
             </View>
 
         );
@@ -164,7 +172,7 @@ class MyBudgetScreen extends Component {
 
 const styles = {
     container: {
-        flex: 1
+        flex: 1,
     },
     topStatusBar: {
         height: 22,

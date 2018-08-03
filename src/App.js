@@ -3,7 +3,7 @@ import { Provider } from "react-redux";
 import { Navigation } from "react-native-navigation";
 import thunk from "redux-thunk";
 import reducers from "./reducers";
-import firebase from 'firebase';
+import firebase from 'firebase'
 import {
   initializeApp,
   initializeAppLoggedIn

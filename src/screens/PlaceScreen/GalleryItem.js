@@ -18,7 +18,7 @@ class GalleryItem extends Component {
                 <Image
                     source={this.props.img}
                     defaultSource={require('../Dashboard/Common/imgs/noimgbox.png')}
-                    loadingIndicatorSource={require('../Dashboard/Common/imgs/noimgbox.png')}
+                    // loadingIndicatorSource={require('../Dashboard/Common/imgs/noimgbox.png')}
                     style={styles.img}
                 />
             </View>

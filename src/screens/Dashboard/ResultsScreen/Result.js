@@ -84,7 +84,7 @@ class Result extends Component {
             else {
                 return (
                     <IoniconsIcon
-                        name="md-heart-outline"
+                        name="md-heart-empty"
                         size={20}
                         color="#000000"
                     />
@@ -94,7 +94,7 @@ class Result extends Component {
         catch (err) {
             return (
                 <IoniconsIcon
-                    name="md-heart-outline"
+                    name="md-heart-empty"
                     size={20}
                     color="#000000"
                 />
@@ -125,7 +125,7 @@ class Result extends Component {
                         <View style={styles.placeimgContainer}>
                             <ImageBackground
                                 defaultSource={this.props.waitingimg}
-                                loadingIndicatorSource={this.props.waitingimg}
+                                // loadingIndicatorSource={this.props.waitingimg}
                                 source={this.props.img}
                                 style={styles.placeimg}
                             >
@@ -192,6 +192,8 @@ class Result extends Component {
                     <TouchableWithoutFeedback
                         style={{
                             flex: 1,
+                            backgroundColor: '#00FF00',
+                            height: 30
                         }}
                         underlayColor={'#f3f3f3'}
                         onPress={() => {
@@ -265,10 +267,8 @@ const styles = {
     },
     navigatorContainer: {
         flex: 1,
-        height: 30,
+        height: 45,
         flexDirection: 'row',
-        paddingTop: 20,
-        paddingBottom: 20,
         alignItems: 'center',
     },
     container: {

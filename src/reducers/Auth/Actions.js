@@ -83,52 +83,29 @@ export const logout = () => {
         try {
             console.log('STORAGE: REMOVING LOGGED IN');
             await AsyncStorage.removeItem('loggedIn');
+            firebase.auth().signOut();
         } catch (error) {
             console.log('STORAGE: FAILED TO REMOVE LOGIN');
         }
-        dispatch({ type: LOGOUT });
-        dispatch(changeAppRoot('login'));
     };
 }
 
 export const listenForAuthChange = async (store) => {
     firebase.auth().onAuthStateChanged(async (user) => {
+        console.log("STATE CHANGED");
         const value = await AsyncStorage.getItem('loggedIn');
         if (user) {
-            if (value) {
-                console.log('USER IS MARKED AS LOGGED IN ALREADY');
-            }
-            else {
-                console.log("USER IS NOT MARKED AS LOGGED IN");
-                firebase.auth().signOut();
-            }
-            console.log("logged in in FB");
-        }
-        else {
-            console.log("LOGGED OUT IN FIB");
-        }
-    });
-}
-
-export const loginUser = ({ email, password }) => {
-    return (dispatch) => {
-        dispatch({ type: TRY_TO_LOGIN });
-        console.log('Trying to log in using firebase...');
-        firebase.auth().signInWithEmailAndPassword(email, password)
-            .then(async (response) => {
-                console.log(response);
-                const uid = response.uid;
-                console.log('LOGGED IN WITH UID ' + uid);
-                axios.post('https://us-central1-dignpick.cloudfunctions.net/api/login', {
-                    'uid': uid
+            axios.post('https://us-central1-dignpick.cloudfunctions.net/api/login', {
+                'uid': user.uid
+            })
+                .then(async function (response) {
+                    console.log(response.data);
+                    await AsyncStorage.setItem('loggedIn', JSON.stringify(response.data.user));
+                    store.dispatch({ type: LOGIN_SUCCESS, payload: response.data.user });
+                    store.dispatch(changeAppRoot('after-login'));
                 })
-                    .then(async function (response) {
-                        console.log(response.data);
-                        await AsyncStorage.setItem('loggedIn', JSON.stringify(response.data.user));
-                        dispatch({ type: LOGIN_SUCCESS, payload: response.data.user });
-                        dispatch(changeAppRoot('after-login'));
-                    })
-                    .catch(function (error) {
+                .catch(function (error) {
+                    if (!value) {
                         console.log(error);
                         Alert.alert(
                             'Error',
@@ -138,9 +115,22 @@ export const loginUser = ({ email, password }) => {
                             ],
                             { cancelable: false }
                         );
-                        dispatch({ type: LOGIN_FAILED });
-                    });
-            })
+                        store.dispatch({ type: LOGIN_FAILED });
+                    }
+                });
+        }
+        else {
+            store.dispatch({ type: LOGOUT });
+            store.dispatch(changeAppRoot('login'));
+        }
+    });
+}
+
+export const loginUser = ({ email, password }) => {
+    return (dispatch) => {
+        dispatch({ type: TRY_TO_LOGIN, payload: 'DEFAULT' });
+        console.log('Trying to log in using firebase...');
+        firebase.auth().signInWithEmailAndPassword(email, password)
             .catch((err) => {
                 console.log('DIDNT LOGIN BRUH ' + err);
                 Alert.alert(

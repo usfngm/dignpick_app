@@ -114,15 +114,23 @@ class ResultsScreen extends Component {
         }
     }
 
+    renderLoading() {
+        if (this.props.isLoading) {
+            return (
+                <View style={this.loadingStyle()}>
+                    <ActivityIndicator size="large" color="#FFFFFF" />
+                    <Text style={styles.loadingText}>Loading...</Text>
+                </View>
+            );
+        }
+    }
+
     render() {
         StatusBar.setBarStyle('light-content', false);
         if (this.props.results.length > 0) {
             return (
                 <View style={styles.container}>
-                    <View style={this.loadingStyle()}>
-                        <ActivityIndicator size="large" color="#FFFFFF" />
-                        <Text style={styles.loadingText}>Loading...</Text>
-                    </View>
+                    {this.renderLoading()}
                     {this.topStatusBar()}
                     <NavBar {...this.props} />
                     <View style={[styles.topStatusBar, { height: 2 }]} />

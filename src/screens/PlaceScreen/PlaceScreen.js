@@ -15,6 +15,8 @@ import Tag from '../Common';
 import FoundationIcon from 'react-native-vector-icons/Foundation';
 import FontAwesomeIcon from 'react-native-vector-icons/FontAwesome';
 import IoniconsIcon from 'react-native-vector-icons/Ionicons';
+import SimpleLineIcons from 'react-native-vector-icons/SimpleLineIcons';
+import EvilIcons from 'react-native-vector-icons/EvilIcons';
 import GalleryItem from './GalleryItem';
 import MapView from 'react-native-maps';
 import { Marker } from 'react-native-maps';
@@ -214,7 +216,7 @@ class PlaceScreen extends Component {
                         <ImageBackground
                             source={this.props.place.coverPhotoURL ? { 'uri': this.props.place.coverPhotoURL } : require('../Dashboard/Common/imgs/noimg.png')}
                             defaultSource={require('../Dashboard/Common/imgs/noimg.png')}
-                            loadingIndicatorSource={require('../Dashboard/Common/imgs/noimg.png')}
+                            // loadingIndicatorSource={require('../Dashboard/Common/imgs/noimg.png')}
                             style={styles.tab_pic}
                         >
                             <View style={styles.tabdimmer}>
@@ -231,8 +233,8 @@ class PlaceScreen extends Component {
                                     }}
                                     style={styles.backBtn}
                                     color="#FFFFFF" />
-                                <Icon
-                                    name="ios-share-outline"
+                                <EvilIcons
+                                    name="share-apple"
                                     size={30}
                                     style={styles.shareBtn}
                                     color="#FFFFFF" />
@@ -301,8 +303,8 @@ class PlaceScreen extends Component {
                         {this.renderGallery()}
                         <View style={{ marginTop: 30 }}>
                             <View style={styles.mapTitleContainer}>
-                                <IoniconsIcon
-                                    name="ios-compass-outline"
+                                <SimpleLineIcons
+                                    name="compass"
                                     size={40}
                                     color="#3c3f45"
                                 />
@@ -323,8 +325,8 @@ class PlaceScreen extends Component {
                                     justifyContent: 'center',
                                     alignContent: 'center'
                                 }}>
-                                <IoniconsIcon
-                                    name="ios-lock-outline"
+                                <SimpleLineIcons
+                                    name="lock"
                                     size={30}
                                     color="#FFFFFF"
                                 />
