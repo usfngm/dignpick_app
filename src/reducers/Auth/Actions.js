@@ -5,6 +5,7 @@ import {
     AsyncStorage,
     Platform
 } from 'react-native';
+import FBSDK, { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 
 
 import {
@@ -83,26 +84,157 @@ export const logout = () => {
         try {
             console.log('STORAGE: REMOVING LOGGED IN');
             await AsyncStorage.removeItem('loggedIn');
-            firebase.auth().signOut();
+            dispatch({ type: LOGOUT });
+            dispatch(changeAppRoot('login'));
         } catch (error) {
             console.log('STORAGE: FAILED TO REMOVE LOGIN');
         }
     };
 }
 
-export const listenForAuthChange = async (store) => {
-    firebase.auth().onAuthStateChanged(async (user) => {
-        console.log("STATE CHANGED");
-        const value = await AsyncStorage.getItem('loggedIn');
-        if (user) {
+export const loginUserViaFacebook = () => {
+    return (dispatch) => {
+        dispatch({ type: TRY_TO_LOGIN, payload: 'FB' });
+        LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(function (result) {
+            if (result.isCancelled) {
+                Alert.alert(
+                    'Alert',
+                    'Login via Facebook was canceled by the user.',
+                    [
+                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                    ],
+                    { cancelable: false }
+                );
+                dispatch({ type: LOGIN_FAILED });
+            } else {
+                AccessToken.getCurrentAccessToken().then(function (data) {
+
+                    const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
+
+                    firebase.auth().signInAndRetrieveDataWithCredential(credential).then(function (result) {
+                        console.log(result);
+                        console.log("THIS UID");
+                        console.log(result.user.uid);
+                        var user = { 'uid': result.user.uid };
+                        // Promise was successful
+                        const responseDataCallback = (error, result) => {
+                            if (error) {
+                                console.log(error);
+                                Alert.alert(
+                                    'Error',
+                                    'UNKNOWN_ERROR',
+                                    [
+                                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                                    ],
+                                    { cancelable: false }
+                                );
+                                dispatch({ type: LOGIN_FAILED });
+                            } else {
+                                // writeUserData(result.id, result.email, result.first_name, result.last_name, result.picture.data.url)
+                                console.log("EMAIL: " + result.email);
+                                console.log("ID: " + result.id);
+                                console.log("FIRST NAME: " + result.first_name);
+                                console.log("LAST NAME: " + result.last_name);
+                                console.log("pic url: " + result.picture.data.url);
+                                user['email'] = result.email;
+                                user['name'] = result.first_name + ' ' + result.last_name;
+                                user['profile_pic_url'] = result.picture.data.url;
+                                user['mobile'] = '';
+                                user['level'] = 'User';
+                                user['favPlaces'] = [];
+                                console.log(user);
+                                axios.post('https://us-central1-dignpick.cloudfunctions.net/api/loginFacebook', {
+                                    'user': user
+                                })
+                                    .then(async function (response) {
+                                        console.log(response.data);
+                                        await AsyncStorage.setItem('loggedIn', JSON.stringify(response.data));
+                                        dispatch({ type: LOGIN_SUCCESS, payload: response.data });
+                                        dispatch(changeAppRoot('after-login'));
+                                    })
+                                    .catch(function (error) {
+                                        console.log(error);
+                                        Alert.alert(
+                                            'Error',
+                                            'Couldn\'t connect to the server. Please check your internet connection and try again.',
+                                            [
+                                                { text: 'OK', onPress: () => console.log('OK Pressed') },
+                                            ],
+                                            { cancelable: false }
+                                        );
+                                        dispatch({ type: LOGIN_FAILED });
+                                    });
+                            }
+                        }
+
+                        const dataRequest = new GraphRequest(
+                            '/me',
+                            {
+                                accessToken: data.accessToken.toString(),
+                                parameters: {
+                                    fields: {
+                                        string: 'id, first_name, last_name, email, picture'
+                                    }
+                                }
+                            },
+                            responseDataCallback
+                        )
+
+                        new GraphRequestManager().addRequest(dataRequest).start()
+                    }, function (error) {
+                        var code = error.code;
+                        if (code == 'auth/account-exists-with-different-credential') {
+                            var email = error.email;
+                            axios.post('https://us-central1-dignpick.cloudfunctions.net/api/loginEmailOnly', {
+                                'email': email
+                            })
+                                .then(async function (response) {
+                                    console.log(response.data);
+                                    await AsyncStorage.setItem('loggedIn', JSON.stringify(response.data));
+                                    dispatch({ type: LOGIN_SUCCESS, payload: response.data });
+                                    dispatch(changeAppRoot('after-login'));
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                    Alert.alert(
+                                        'Error',
+                                        'Couldn\'t connect to the server. Please check your internet connection and try again.',
+                                        [
+                                            { text: 'OK', onPress: () => console.log('OK Pressed') },
+                                        ],
+                                        { cancelable: false }
+                                    );
+                                    dispatch({ type: LOGIN_FAILED });
+                                });
+                        }
+                        else {
+                            dispatch({ type: LOGIN_FAILED });
+                            console.log(error);
+                            console.log(error.code);
+                        }
+                    })
+                })
+            }
+        }, function (error) {
+            console.log('Some error occured:' + error)
+        })
+    }
+}
+
+export const loginUser = ({ email, password }) => {
+    return (dispatch) => {
+        dispatch({ type: TRY_TO_LOGIN, payload: 'DEFAULT' });
+        console.log('Trying to log in using firebase...');
+        firebase.auth().signInWithEmailAndPassword(email, password).then((result) => {
+            var uid = result.user.uid;
             axios.post('https://us-central1-dignpick.cloudfunctions.net/api/login', {
-                'uid': user.uid
+                'uid': uid
             })
                 .then(async function (response) {
                     console.log(response.data);
                     await AsyncStorage.setItem('loggedIn', JSON.stringify(response.data.user));
-                    store.dispatch({ type: LOGIN_SUCCESS, payload: response.data.user });
-                    store.dispatch(changeAppRoot('after-login'));
+                    dispatch({ type: LOGIN_SUCCESS, payload: response.data.user });
+                    dispatch(changeAppRoot('after-login'));
                 })
                 .catch(function (error) {
                     if (!value) {
@@ -115,22 +247,10 @@ export const listenForAuthChange = async (store) => {
                             ],
                             { cancelable: false }
                         );
-                        store.dispatch({ type: LOGIN_FAILED });
+                        dispatch({ type: LOGIN_FAILED });
                     }
                 });
-        }
-        else {
-            store.dispatch({ type: LOGOUT });
-            store.dispatch(changeAppRoot('login'));
-        }
-    });
-}
-
-export const loginUser = ({ email, password }) => {
-    return (dispatch) => {
-        dispatch({ type: TRY_TO_LOGIN, payload: 'DEFAULT' });
-        console.log('Trying to log in using firebase...');
-        firebase.auth().signInWithEmailAndPassword(email, password)
+        })
             .catch((err) => {
                 console.log('DIDNT LOGIN BRUH ' + err);
                 Alert.alert(

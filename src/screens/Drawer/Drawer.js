@@ -190,13 +190,15 @@ const styles = {
     },
     logoutBtnContainer: {
         height: 70,
+        flex: 1,
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        marginLeft: -70
     },
     logoutBtnTxt: {
         color: 'white',
-        marginLeft: 5,
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        textAlign: 'center',
     }
 }
 

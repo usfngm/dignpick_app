@@ -14,13 +14,13 @@ import {
     ScrollView,
     PermissionsAndroid
 } from 'react-native';
-//import FBSDK, { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 import KeyboardSpacer from 'react-native-keyboard-spacer';
 import { connect } from 'react-redux';
 import {
     emailChanged,
     passwordChanged,
-    loginUser
+    loginUser,
+    loginUserViaFacebook
 } from '../../reducers/Auth/Actions';
 import { changeAppRoot } from '../../reducers/App/Actions';
 import {
@@ -57,60 +57,6 @@ class LoginScreen extends Component {
         };
     }
 
-    fbAuth() {
-        // LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(function (result) {
-        //     if (result.isCancelled) {
-        //         console.log('Login was cancelled')
-        //     } else {
-        //         AccessToken.getCurrentAccessToken().then(function (accessTokenData) {
-
-        //             // var provider = new firebase.auth.FacebookAuthProvider();
-        //             // console.log(provider);
-        //             // firebase.auth().signInWithEmailAndPassword('usf.ngm@gmail.com', 'test123').then((doc) => {
-        //             //     console.log(doc);
-        //             // })
-        //             console.log("END");
-        //             return;
-        //             //credential.credential(accessTokenData.accessToken);
-        //             firebase.auth().signInWithCredential(credential).then(function (result) {
-        //                 // Promise was successful
-
-        //                 const responseDataCallback = (error, result) => {
-        //                     if (error) {
-        //                         console.log(error)
-        //                     } else {
-        //                         writeUserData(result.id, result.email, result.first_name, result.last_name, result.picture.data.url)
-
-        //                         return Actions.pagecontrol()
-        //                     }
-        //                 }
-
-        //                 const dataRequest = new GraphRequest(
-        //                     '/me',
-        //                     {
-        //                         accessToken: accessTokenData.accessToken.toString(),
-        //                         parameters: {
-        //                             fields: {
-        //                                 string: 'id, first_name, last_name, email, picture'
-        //                             }
-        //                         }
-        //                     },
-        //                     responseDataCallback
-        //                 )
-
-        //                 new GraphRequestManager().addRequest(dataRequest).start()
-        //             }, function (error) {
-        //                 // Promise was rejected
-        //                 console.log(error)
-        //             })
-        //         })
-        //     }
-        // }, function (error) {
-        //     console.log('Some error occured:' + error)
-        // })
-    }
-
-
     componentDidMount() {
         StatusBar.setBarStyle('light-content', false);
         StatusBar.setHidden(true);
@@ -131,7 +77,7 @@ class LoginScreen extends Component {
     }
 
     facebookLogin() {
-        this.fbAuth();
+        this.props.loginUserViaFacebook();
     }
 
     gplusLogin() {
@@ -444,6 +390,7 @@ const actions = {
     emailChanged,
     passwordChanged,
     loginUser,
-    changeAppRoot
+    changeAppRoot,
+    loginUserViaFacebook
 };
 export default connect(mapStateToProps, actions)(LoginScreen);

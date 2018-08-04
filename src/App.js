@@ -18,7 +18,6 @@ import {
   DASHBOARD_PAGE,
   FAVOURITES_PAGE
 } from './reducers/App/PagesTypes';
-import { listenForAuthChange } from './reducers/Auth/Actions';
 
 
 // redux related book keeping
@@ -42,7 +41,6 @@ export default class App {
       storageBucket: "dignpick.appspot.com",
       messagingSenderId: "649798915536"
     });
-    listenForAuthChange(store);
   }
 
   init_app = async () => {

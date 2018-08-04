@@ -12,6 +12,7 @@
     "firebase": "5.0.2",
     "react": "16.4.1",
     "react-native": "0.56.0",
+    "react-native-fbsdk": "^0.7.0",
     "react-native-keyboard-spacer": "^0.4.1",
     "react-native-maps": "^0.21.0",
     "react-native-navigation": "https://github.com/usfngm/react-native-navigation.git",

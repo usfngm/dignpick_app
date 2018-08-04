@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import {
     TouchableHighlight,
     Image,
-    Platform
+    Platform,
+    Dimensions
 } from 'react-native';
 import { connect } from 'react-redux';
 import { budgetSearch } from '../../../reducers/Dashboard/Actions';
@@ -41,6 +42,7 @@ const navBatHeight = getNavBarHeight => {
         if (height === 812 || width === 812)
             return 88 // iPhone X navbar height (regular title);
         else
+
             return 64 // iPhone navbar height;
     } else
         return 54 //android portrait navbar height;
@@ -53,7 +55,7 @@ const styles = {
         alignSelf: 'stretch',
         alignItems: 'center',
         justifyContent: 'center',
-        marginBottom: navBatHeight()
+        marginBottom: 49
     },
     img: {
         width: '60%'

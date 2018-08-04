@@ -35,12 +35,12 @@ target 'DignPick' do
 
   # your other libraries will follow here!
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
-
-    # react-native-maps dependencies
-    pod 'react-native-maps', path: rn_maps_path
-    pod 'react-native-google-maps', path: rn_maps_path  # Remove this line if you don't want to support GoogleMaps on iOS
-    pod 'GoogleMaps'  # Remove this line if you don't want to support GoogleMaps on iOS
-    pod 'Google-Maps-iOS-Utils' # Remove this line if you don't want to support GoogleMaps on iOS
+  pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk/ios'
+  # react-native-maps dependencies
+  pod 'react-native-maps', path: rn_maps_path
+  pod 'react-native-google-maps', path: rn_maps_path  # Remove this line if you don't want to support GoogleMaps on iOS
+  pod 'GoogleMaps'  # Remove this line if you don't want to support GoogleMaps on iOS
+  pod 'Google-Maps-iOS-Utils' # Remove this line if you don't want to support GoogleMaps on iOS
 end
 
 # The following is needed to ensure the "archive" step works in XCode.
