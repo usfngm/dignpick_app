@@ -95,7 +95,10 @@ export const logout = () => {
 export const loginUserViaFacebook = () => {
     return (dispatch) => {
         dispatch({ type: TRY_TO_LOGIN, payload: 'FB' });
+        console.log("TRYING TO LOGIN WITH READ");
         LoginManager.logInWithReadPermissions(['public_profile', 'email']).then(function (result) {
+            console.log('RESULT CAME BACK');
+            console.log(result);
             if (result.isCancelled) {
                 Alert.alert(
                     'Alert',
@@ -107,8 +110,9 @@ export const loginUserViaFacebook = () => {
                 );
                 dispatch({ type: LOGIN_FAILED });
             } else {
+                console.log('result is not canceled. Getting Access Token');
                 AccessToken.getCurrentAccessToken().then(function (data) {
-
+                    console.log("GOT ACCESS TOKEN. Signing in using Firebase");
                     const credential = firebase.auth.FacebookAuthProvider.credential(data.accessToken);
 
                     firebase.auth().signInAndRetrieveDataWithCredential(credential).then(function (result) {
@@ -215,9 +219,10 @@ export const loginUserViaFacebook = () => {
                     })
                 })
             }
-        }, function (error) {
-            console.log('Some error occured:' + error)
-        })
+        }, (error) => {
+            console.log("ERROR FB: " + error);
+            dispatch({ type: LOGIN_FAILED });
+        });
     }
 }
 

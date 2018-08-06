@@ -193,7 +193,6 @@ const styles = {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        marginLeft: -70
     },
     logoutBtnTxt: {
         color: 'white',

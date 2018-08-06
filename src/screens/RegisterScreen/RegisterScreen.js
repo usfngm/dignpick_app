@@ -74,6 +74,17 @@ class RegisterScreen extends Component {
         }
     }
 
+    renderLoading() {
+        if (this.props.isLoading) {
+            return (
+                <View style={this.loadingStyler()}>
+                    <ActivityIndicator size="large" color="#FFFFFF" />
+                    <Text style={styles.loadingText}>Creating your account...</Text>
+                </View>
+            );
+        }
+    }
+
     render() {
         return (
             <ImageBackground
@@ -161,10 +172,7 @@ class RegisterScreen extends Component {
                         </View>
                     </TouchableHighlight>
                 </ScrollView>
-                <View style={this.loadingStyler()}>
-                    <ActivityIndicator size="large" color="#FFFFFF" />
-                    <Text style={styles.loadingText}>Creating your account...</Text>
-                </View>
+                {this.renderLoading()}
             </ImageBackground>
         );
     }
