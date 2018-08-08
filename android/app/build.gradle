@@ -149,8 +149,13 @@ dependencies {
         exclude group: 'com.google.android.gms', module: 'play-services-base'
         exclude group: 'com.google.android.gms', module: 'play-services-maps'
     }
-    implementation 'com.google.android.gms:play-services-base:10.0.1'
-    implementation 'com.google.android.gms:play-services-maps:10.0.1'
+    implementation(project(":react-native-google-signin")){
+        exclude group: "com.google.android.gms" // very important
+    }
+    implementation 'com.google.android.gms:play-services-auth:15.0.0' // should be at least 15.0.0 to work with most recent APIS
+    implementation 'com.google.android.gms:play-services-base:15.0.1'
+    implementation 'com.google.android.gms:play-services-maps:15.0.1'
+
 }
 
 // Run this once to be able to run the application with BUCK
@@ -159,3 +164,5 @@ task copyDownloadableDepsToLibs(type: Copy) {
     from configurations.compile
     into 'libs'
 }
+
+apply plugin: 'com.google.gms.google-services' // <--- this should be the last line

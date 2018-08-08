@@ -4693,6 +4693,10 @@ react-native-fbsdk@^0.7.0:
     pump "^1.0.2"
     xcode "^0.9.3"
 
+"react-native-google-signin@https://github.com/react-native-community/react-native-google-signin.git":
+  version "1.0.0-rc2"
+  resolved "https://github.com/react-native-community/react-native-google-signin.git#096e06f83fa456d04588568a3814cc31220d0b9d"
+
 react-native-keyboard-spacer@^0.4.1:
   version "0.4.1"
   resolved "https://registry.yarnpkg.com/react-native-keyboard-spacer/-/react-native-keyboard-spacer-0.4.1.tgz#46f18a320432098a25ea9fa89f5143dd254d332d"

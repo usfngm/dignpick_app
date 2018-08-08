@@ -6,7 +6,7 @@ import {
     Platform
 } from 'react-native';
 import FBSDK, { LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
-
+import { GoogleSignin } from 'react-native-google-signin';
 
 import {
     EMAIL_CHANGED,
@@ -92,6 +92,99 @@ export const logout = () => {
     };
 }
 
+export const loginUserViaGoogle = () => {
+    return (dispatch) => {
+        dispatch({ type: TRY_TO_LOGIN, payload: 'GOOGLE' });
+        var user = {};
+        GoogleSignin.hasPlayServices({ autoResolve: true })
+            .then(() => {
+                console.log('HAS PLAY SERVICES')
+                // play services are available. can now configure library
+                GoogleSignin.configure({
+                    iosClientId: '649798915536-iojbr1i016u291csv154m7cm1fah1idt.apps.googleusercontent.com',
+                    webClientId: '649798915536-qthflv9hvil7fg4re54962c47u5n02b4.apps.googleusercontent.com'
+                });
+
+                GoogleSignin.signIn()
+                    .then((data) => {
+                        console.log(data);
+                        // Create a new Firebase credential with the token
+                        const credential = firebase.auth.GoogleAuthProvider.credential(data.idToken, data.accessToken);
+                        // Login with the credential
+                        return firebase.auth().signInAndRetrieveDataWithCredential(credential);
+                    }).then((result) => {
+                        console.log(result.user.uid);
+                        console.log(result.user.name);
+                        console.log(result.user.photo);
+                        console.log(result.user.email);
+                        user['uid'] = result.user.uid;
+                        user['email'] = result.user.email;
+                        user['name'] = result.user.name;
+                        user['profile_pic_url'] = result.user.photo;
+                        user['mobile'] = '';
+                        user['level'] = 'User';
+                        user['favPlaces'] = [];
+                        console.log(user);
+                        axios.post('https://us-central1-dignpick.cloudfunctions.net/api/loginFacebook', {
+                            'user': user
+                        })
+                            .then(async function (response) {
+                                console.log(response.data);
+                                await AsyncStorage.setItem('loggedIn', JSON.stringify(response.data));
+                                dispatch({ type: LOGIN_SUCCESS, payload: response.data });
+                                dispatch(changeAppRoot('after-login'));
+                            })
+                            .catch(function (error) {
+                                console.log(error);
+                                Alert.alert(
+                                    'Error',
+                                    'Couldn\'t connect to the server. Please check your internet connection and try again.',
+                                    [
+                                        { text: 'OK', onPress: () => console.log('OK Pressed') },
+                                    ],
+                                    { cancelable: false }
+                                );
+                                dispatch({ type: LOGIN_FAILED });
+                            });
+                    }).catch((error) => {
+                        var code = error.code;
+                        if (code == 'auth/account-exists-with-different-credential') {
+                            var email = error.email;
+                            axios.post('https://us-central1-dignpick.cloudfunctions.net/api/loginEmailOnly', {
+                                'email': email
+                            })
+                                .then(async function (response) {
+                                    console.log(response.data);
+                                    await AsyncStorage.setItem('loggedIn', JSON.stringify(response.data));
+                                    dispatch({ type: LOGIN_SUCCESS, payload: response.data });
+                                    dispatch(changeAppRoot('after-login'));
+                                })
+                                .catch(function (error) {
+                                    console.log(error);
+                                    Alert.alert(
+                                        'Error',
+                                        'Couldn\'t connect to the server. Please check your internet connection and try again.',
+                                        [
+                                            { text: 'OK', onPress: () => console.log('OK Pressed') },
+                                        ],
+                                        { cancelable: false }
+                                    );
+                                    dispatch({ type: LOGIN_FAILED });
+                                });
+                        }
+                        else {
+                            dispatch({ type: LOGIN_FAILED });
+                            console.log(error);
+                            console.log(error.code);
+                        }
+                    });
+            })
+            .catch(err => {
+                console.log('Play services error', err.code, err.message);
+                dispatch({ type: LOGIN_FAILED });
+            });
+    }
+}
 export const loginUserViaFacebook = () => {
     return (dispatch) => {
         dispatch({ type: TRY_TO_LOGIN, payload: 'FB' });

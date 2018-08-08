@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "649798915536",
+    "firebase_url": "https://dignpick.firebaseio.com",
+    "project_id": "dignpick",
+    "storage_bucket": "dignpick.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:649798915536:android:4fed78924d739c1e",
+        "android_client_info": {
+          "package_name": "com.dignpick"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "649798915536-mjqfb83d434so4jc3k00uf51ritjq0p1.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.dignpick",
+            "certificate_hash": "df0da64ddec48584a4158a66287c06d7ff9a6815"
+          }
+        },
+        {
+          "client_id": "649798915536-qthflv9hvil7fg4re54962c47u5n02b4.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD4iddH6Bol2POazOemwt2g6SF6wzlhYug"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "649798915536-qthflv9hvil7fg4re54962c47u5n02b4.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "649798915536-iojbr1i016u291csv154m7cm1fah1idt.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.dignpick"
+              }
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

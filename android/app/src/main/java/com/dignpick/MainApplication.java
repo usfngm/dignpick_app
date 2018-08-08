@@ -11,6 +11,7 @@ import com.facebook.FacebookSdk;
 import com.facebook.reactnative.androidsdk.FBSDKPackage;
 import com.facebook.appevents.AppEventsLogger;
 import com.reactnativenavigation.controllers.ActivityCallbacks;
+import co.apptailor.googlesignin.RNGoogleSigninPackage;
 
 import java.util.Arrays;
 import java.util.List;
@@ -50,7 +51,8 @@ public class MainApplication extends NavigationApplication {
                 // eg. new VectorIconsPackage()
                 new MapsPackage(),
                 new VectorIconsPackage(),
-                new FBSDKPackage(mCallbackManager)
+                new FBSDKPackage(mCallbackManager),
+                new RNGoogleSigninPackage()
         );
     }
 

@@ -36,6 +36,8 @@ target 'DignPick' do
   # your other libraries will follow here!
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
   pod 'react-native-fbsdk', :path => '../node_modules/react-native-fbsdk/ios'
+  pod 'RNGoogleSignin', :path => '../node_modules/react-native-google-signin'
+
   # react-native-maps dependencies
   pod 'react-native-maps', path: rn_maps_path
   pod 'react-native-google-maps', path: rn_maps_path  # Remove this line if you don't want to support GoogleMaps on iOS

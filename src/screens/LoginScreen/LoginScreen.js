@@ -20,7 +20,8 @@ import {
     emailChanged,
     passwordChanged,
     loginUser,
-    loginUserViaFacebook
+    loginUserViaFacebook,
+    loginUserViaGoogle
 } from '../../reducers/Auth/Actions';
 import { changeAppRoot } from '../../reducers/App/Actions';
 import {
@@ -81,7 +82,7 @@ class LoginScreen extends Component {
     }
 
     gplusLogin() {
-
+        this.props.loginUserViaGoogle();
     }
 
     twitterLogin() {
@@ -391,6 +392,7 @@ const actions = {
     passwordChanged,
     loginUser,
     changeAppRoot,
-    loginUserViaFacebook
+    loginUserViaFacebook,
+    loginUserViaGoogle
 };
 export default connect(mapStateToProps, actions)(LoginScreen);
