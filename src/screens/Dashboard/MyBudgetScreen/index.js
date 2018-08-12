@@ -29,7 +29,8 @@ import {
 } from '../../../reducers/Dashboard/Actions';
 
 import {
-    nav_to
+    nav_to,
+    changeAppRoot
 } from '../../../reducers/App/Actions';
 
 import { loadFavs } from '../../../reducers/Favourites/Actions';
@@ -82,6 +83,14 @@ class MyBudgetScreen extends Component {
         );
         this.props.loadFavs();
         console.log('called LOAD FAVS');
+        this.props.navigator.push({
+            screen: 'adScreen', // unique ID registered with Navigation.registerScreen
+            navigatorStyle: {
+                drawUnderNavBar: true,
+                navBarTransparent: true,
+                navBarTranslucent: Platform.OS === 'ios',
+            },
+        });
     }
 
     loadingStyler() {
@@ -220,7 +229,8 @@ const actions = {
     peopleDecremented,
     nav_to,
     updateLocation,
-    loadFavs
+    loadFavs,
+    changeAppRoot
 };
 
 export default connect(mapStateToProps, actions)(MyBudgetScreen);

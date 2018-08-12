@@ -10,6 +10,7 @@ import PlaceScreen from './PlaceScreen';
 import Drawer from './Drawer';
 import RegisterScreen from './RegisterScreen';
 import EditProfileScreen from './EditProfileScreen';
+import AdScreen from './AdScreen';
 
 // register all screens of the app (including internal ones)
 export function registerScreens(store, Provider) {
@@ -23,4 +24,6 @@ export function registerScreens(store, Provider) {
   Navigation.registerComponent('dashboard.placeScreen', () => PlaceScreen, store, Provider);
   Navigation.registerComponent('registerScreen', () => RegisterScreen, store, Provider);
   Navigation.registerComponent('editProfile', () => EditProfileScreen, store, Provider);
+  Navigation.registerComponent('adScreen', () => AdScreen, store, Provider);
 }
+
